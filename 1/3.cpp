@@ -74,6 +74,5 @@ int main()
     std::cin >> a >> b >> str1 >> str2 >> num1 >> num2;
     char *result = add(str1, str2);
     auto result2 = add(num1, num2);
-    std::cout << add(a, b) << ", " << result << ", ";
-    std::cout << result2 << std::endl;
+    std::cout << add(a, b) << ", " << result << ", " << result2 << std::endl;
 }
