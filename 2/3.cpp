@@ -142,6 +142,7 @@ int main(){
             input.read(reinterpret_cast<char*>(&ri), sizeof(RoomInfo));
             rooms.push_back(std::move(ri));
         }
+        rooms.pop_back();
     }
     input.close();
     char command;
@@ -179,6 +180,7 @@ int main(){
         default:
             break;
         }
+        std::cin.clear();
     }
     
 }
