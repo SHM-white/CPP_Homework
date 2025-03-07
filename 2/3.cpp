@@ -2,6 +2,8 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <cstring>
+#include <algorithm>
 class RoomInfo{
 public:
     bool setId(const std::string& str){
@@ -43,6 +45,7 @@ bool SaveRooms(std::vector<RoomInfo>& rooms){
     for(auto& i : rooms){
         out.write(reinterpret_cast<char*>(&i), sizeof(RoomInfo));
     }
+    std::cout << "Save success" << std::endl;
     return true;
 }
 bool AddRoomInfo(std::vector<RoomInfo>& rooms){
@@ -75,26 +78,104 @@ bool DeleteRoomInfo(std::vector<RoomInfo>& rooms){
     rooms.erase(rooms.begin() + index);
     return SaveRooms(rooms);
 }
+bool EditBookInfo(std::vector<RoomInfo>& rooms){
+    ShowAllRoomInfos(rooms, true);
+    std::cout << "Index | status" << std::endl;
+    int index;
+    bool status;
+    std::cin >> index >> status;
+    rooms[index].setBooked(status);
+    return SaveRooms(rooms);
+}
+bool EditCustomInfo(std::vector<RoomInfo>& rooms){
+    ShowAllRoomInfos(rooms, true);
+    std::cout << "Index | cname | cid" << std::endl;
+    int index;
+    std::string cname, cid;
+    std::cin >> index >> cname >> cid;
+    rooms[index].setCname(cname);
+    rooms[index].setCid(cid);
+    return SaveRooms(rooms);
+}
+void FindByName(std::vector<RoomInfo>& rooms){
+    std::string name;
+    std::cin >> name;
+    auto result = std::find_if(rooms.begin(), rooms.end(), [&](RoomInfo &info)
+                 { return std::string(info.cname) == name; });
+    if(result == rooms.end()){
+        return;
+    }
+    std::cout << *result;
+}
+bool DeleteCustomInfo(std::vector<RoomInfo>& rooms){
+    ShowAllRoomInfos(rooms, true);
+    int index;
+    std::cin >> index;
+    auto& r = rooms[index];
+    r.setBooked(false);
+    r.setCname("");
+    r.setCid("");
+    return SaveRooms(rooms);
+}
+void CalculateRoomInfos(std::vector<RoomInfo>& rooms){
+    int total = 0, booked = 0, livedIn = 0;
+    for(auto& i : rooms){
+        if(i.cid == ""){
+            if(i.booked == true){
+                booked++;
+            }
+        }
+        else{
+            livedIn++;
+        }
+        total++;
+    }
+    std::cout << "Total:" << total << " Booked:" << booked << " LivedIn:" << livedIn << std::endl;
+}
 int main(){
     std::vector<RoomInfo> rooms;
     std::ifstream input{"22.bin", std::ios::binary | std::ios::in};
-    while (!input.eof())
-    {
-        RoomInfo ri;
-        input.read(reinterpret_cast<char*>(&ri), sizeof(RoomInfo));
-        rooms.push_back(std::move(ri));
+    if(input.is_open()){
+        while (!input.eof())
+        {
+            RoomInfo ri;
+            input.read(reinterpret_cast<char*>(&ri), sizeof(RoomInfo));
+            rooms.push_back(std::move(ri));
+        }
     }
     input.close();
     char command;
     while (1)
     {
         std::cin >> command;
-        switch (command)
+        switch (tolower(command))
         {
         case 'a':
-            
+            AddRoomInfo(rooms);
             break;
-        
+        case 'b':
+            DeleteRoomInfo(rooms);
+            break;
+        case 'c':
+            ShowAllRoomInfos(rooms);
+            break;
+        case 'd':
+            EditBookInfo(rooms);
+            break;
+        case 'e':
+            EditCustomInfo(rooms);
+            break;
+        case 'f':
+            FindByName(rooms);
+            break;
+        case 'g':
+            DeleteCustomInfo(rooms);
+            break;
+        case 'h':
+            CalculateRoomInfos(rooms);
+            break;
+        case 'q':
+            return 0;
         default:
             break;
         }
