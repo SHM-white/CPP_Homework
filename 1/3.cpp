@@ -11,7 +11,7 @@ public:
     BinNum operator+(BinNum &another) const
     {
         BinNum newNum;
-        for (size_t i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++)
         {
             newNum.num[i] += ((int)num[i] + (int)another[i]);
             if (newNum[i] > 1)
@@ -48,7 +48,7 @@ std::istream &operator>>(std::istream &is, BinNum &num)
 }
 std::ostream &operator<<(std::ostream &os, BinNum &num)
 {
-    for (size_t i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++)
     {
         os << (int)num[4 - i];
     }

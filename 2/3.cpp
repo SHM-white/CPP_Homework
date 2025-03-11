@@ -65,7 +65,7 @@ void ShowAllRoomInfos(std::vector<RoomInfo>& rooms, bool ask = false){
         }
     }
     std::cout << "index|id|price|booked(bool)|cname|cid" << std::endl;
-    for (size_t i = 0; i < rooms.size(); i++)
+    for (int i = 0; i < rooms.size(); i++)
     {
         std::cout << i << " " << rooms[i] << std::endl;
     }

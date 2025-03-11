@@ -12,9 +12,7 @@ int main(){
     while (!inputFile.eof())
     {
         std::string tmp;
-        char buf[10240];
-        inputFile.getline(buf, 10240);
-        tmp = buf;
+        std::getline(inputFile, tmp);
         std::regex target {"(\\w+)"};
         auto words_begin = std::sregex_iterator(tmp.begin(), tmp.end(), target);
         auto words_end = std::sregex_iterator();
