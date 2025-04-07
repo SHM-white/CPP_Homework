@@ -46,7 +46,7 @@ void printMap(const std::vector<std::vector<T>>& map, const std::string& str){
 void bfs(const Map& map, std::queue<Position>& searchQueue){
     std::vector<std::vector<bool>> searched(map.size(), std::vector<bool>(map[0].size(), false));
     std::vector<std::vector<std::string>> steps(map.size(), std::vector<std::string>(map[0].size(), ""));
-   while (!searchQueue.empty()){ 
+    while (!searchQueue.empty()){ 
         Direction stepsBefore;
         Position currentPos = searchQueue.front();
         searchQueue.pop();
@@ -96,8 +96,6 @@ void bfs(const Map& map, std::queue<Position>& searchQueue){
                 }
             }
         }
-        
-        
     }
 }
 int main(){
