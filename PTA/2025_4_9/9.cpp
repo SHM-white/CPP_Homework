@@ -6,16 +6,15 @@ int main(){
     std::string str;
     std::getline(std::cin, str);
     std::stringstream ss{str};
-    std::vector<int> heights;
-    while (!ss.eof())
+    std::vector<long long> heights;
+    long long t;
+    while (ss >> t) // 修改数据读取方式
     {
-        int t;
-        ss >> t;
         heights.push_back(t);
     }
-    std::vector<int> dp(heights.size(), 1);
-    int result = 0;
-    for (size_t i = 1; i < dp.size(); i++)
+    std::vector<long long> dp(heights.size(), 1);
+    long long result = 0;
+    for (size_t i = 0; i < dp.size(); i++)
     {
         for (size_t j = 0; j < i; j++)
         {
