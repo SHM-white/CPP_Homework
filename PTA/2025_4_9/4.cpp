@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 //Time-Value
 using Items = std::vector<std::pair<int, int>>;
@@ -20,13 +21,14 @@ int main(){
         items.push_back({a, b});
         for (int j = 1; j <= t; j++)
         {
-            // if(j - b >= 0){
-            //     map[i][j] = std::max(map[i - 1][j], map[i - 1][j - b]);
-            // }
+            if (j >= a) {
+                map[i][j] = std::max(map[i - 1][j], map[i - 1][j - a] + b);
+            } else {
+                map[i][j] = map[i - 1][j];
+            }
         }
-        
     }
-    
-    
-    
+
+    std::cout << map[m][t] << std::endl;
+    return 0;
 }
