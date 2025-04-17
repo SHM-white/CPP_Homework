@@ -24,7 +24,7 @@ void solve(){
         std::deque<long long> items;
 
         auto addToDeque = [&](long long value) {
-            if (!items.empty() && value > items.back()){
+            while (!items.empty() && value > items.back()) {
                 items.pop_back();
             }
             items.push_back(value);
@@ -40,11 +40,13 @@ void solve(){
             auto begin = i - length + 1;
             long long cost = 0;
             addToDeque(arr[i]);
-            if(items.front() == arr[begin - 1])
-            {
+
+            if (begin > 1 && items.front() == arr[begin - 1]) {
                 items.pop_front();
             }
+
             auto maxInRange = items.front();
+
             if (begin > 1) {
                 cost += deltas[begin - 1];
                 cost += abs(maxInRange - arr[begin - 1]);
@@ -53,8 +55,8 @@ void solve(){
                 cost += deltas[n] - deltas[i + 1];
                 cost += abs(maxInRange - arr[i + 1]);
             }
-            if(cost <= maxWidth)
-            {
+
+            if (cost <= maxWidth) {
                 return true;
             }
         }
