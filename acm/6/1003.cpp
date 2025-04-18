@@ -10,6 +10,7 @@ void add(long long p, long long delta_value){
         treeList[i] += delta_value;
     }
 }
+
 long long get(long long p){
     long long result = 0;
     for (long long i = p; i > 0; i -= i & -i){
