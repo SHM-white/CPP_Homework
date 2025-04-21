@@ -4,3 +4,4 @@
 input*.txt
 output*.txt
 /test
+__pycache__
