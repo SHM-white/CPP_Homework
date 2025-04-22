@@ -7,7 +7,7 @@ class StoneMerge(Scene):
         self.play(Write(title))
 
         # Input data
-        stones = [2, 5, 3, 1]  # Example input
+        stones = [2, 5, 3, 1, 7]  # Example input
         n = len(stones)
 
         # Display stones
@@ -43,9 +43,31 @@ class StoneMerge(Scene):
                 self.highlight_table_cell(total_cost_cells, i, j, color=BLUE)
 
                 for k in range(i, j):
-                    formula = f"totalCost[{i+1}][{j+1}] = min(totalCost[{i+1}][{k+1}] + totalCost[{k+2}][{j+1}] + dp[{i+1}][{k+1}] + dp[{k+2}][{j+1}])"
-                    updated_formula_text = Text(formula, font_size=16).to_edge(DOWN)
-                    self.play(Transform(formula_text, updated_formula_text))
+                    # Create formula with colored text using t2c
+                    formula_text_content = (
+                        f"totalCost[{i+1}][{j+1}] = min("
+                        f"totalCost[{i+1}][{k+1}] + "
+                        f"totalCost[{k+2}][{j+1}] + "
+                        f"dp[{i+1}][{k+1}] + "
+                        f"dp[{k+2}][{j+1}])"
+                    )
+                    formula = Text(
+                        formula_text_content,
+                        font_size=16,
+                        t2c={
+                            f"totalCost[{i+1}][{k+1}]": RED,
+                            f"totalCost[{k+2}][{j+1}]": GREEN,
+                            f"dp[{i+1}][{k+1}]": YELLOW,
+                            f"dp[{k+2}][{j+1}]": ORANGE,
+                        }
+                    ).to_edge(DOWN)
+                    self.play(Transform(formula_text, formula))
+
+                    # Highlight cells with different colors simultaneously
+                    self.highlight_table_cell(total_cost_cells, i, k, color=RED)
+                    self.highlight_table_cell(total_cost_cells, k + 1, j, color=GREEN)
+                    self.highlight_table_cell(dp_cells, i, k, color=YELLOW)
+                    self.highlight_table_cell(dp_cells, k + 1, j, color=ORANGE)
 
                     new_cost = total_cost[i][k] + total_cost[k + 1][j] + dp[i][k] + dp[k + 1][j]
                     if new_cost < total_cost[i][j]:
